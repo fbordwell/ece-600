@@ -12,6 +12,8 @@
 \providecommand{\B}{\mathcal{B}}
 \providecommand{\G}{\mathcal{G}}
 \providecommand{\F}{\mathcal{F}}
+\providecommand{\X}{\mathbb{X}}
+\providecommand{\Y}{\mathbb{Y}}
 \providecommand{\N}{\mathbb{N}}
 \providecommand{\R}{\mathbb{R}}
 
@@ -172,6 +174,147 @@
         where $p=\P_0(A)$.
 
         \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Properties of the cdf}
+        \begin{equation*}
+            F_{\X}(\alpha)=\P_x((-\infty,\alpha))=\P(\{\X\leq\alpha\})
+        \end{equation*}
+        where
+        \begin{equation*}
+            \{\X\leq\alpha\} = \{\omega\in\S:\X(\omega)\leq\alpha\}\in\F
+        \end{equation*}
+        Properties:
+        \begin{enumerate}
+            \item $F_\X(\infty)=1$ and $F_\X(-\infty)=0$
+            \item If $x_1<x_2$, then $F_\X(x_1)\leq F_\X(x_2)$
+            \item $\P(\{\X>\alpha\}) = 1-F_\X(\alpha)$
+            \item If $x_1<x_2$, then $\P(\{x_1<\X\leq x_2\}) = F_\X(x_2)-F_\X(x_1)$
+            \item $\P(\{\X=x_0\}) = F_\X(x_o)-F_\X(x_0^-)$ where $F_\X(x_0^-)=\lim_{\epsilon\downarrow0}F_\X(x_0-\epsilon)$
+        \end{enumerate}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Properties of the pdf}
+        \begin{equation*}
+            f_{\X}(x)=\frac{dF_\X(x)}{dx}
+        \end{equation*}
+        Properties:
+        \begin{enumerate}
+            \item $f_\X(x)\geq0,\forall x\in\R$
+            \item $F_\X(x)=\int_{-\infty}^{x} f_\X(\alpha)d\alpha $
+            \item $\int_{\infty}^{\infty} f_\X(x)dx = F_\X(\infty) - F_\X(-\infty) = 1$
+            \item $\P(\{x_1<\X\leq x_2\}) =\int_{x_1}^{x_2}f_\X(x)dx=F_\X(x_2)-F_\X(x_1) $
+        \end{enumerate}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Dirac $\delta$-functions:} $\delta(x)$
+
+        \begin{itemize}
+            \item $\delta(x)=0,\forall x\neq0$
+            \item $\int_{\infty}^{\infty} \delta(x)dx=\int_{-\epsilon}^{\epsilon}\delta(x)dx=1,\forall\epsilon>0 $
+        \end{itemize}
+
+        \textbf{Sifting Property of Dirac $\delta$-functions}
+        \begin{equation*}
+            \int_{\infty}^{\infty} g(x)\delta(x-x_0)dx=g(x_0)
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Random Variable Forms}
+
+        \textbf{gaussian}
+        \begin{equation*}
+            f_\X(x)=\frac{1}{\sqrt{2\pi}\sigma}\exp[\frac{-(x-\mu)^2}{2\sigma^2}],\forall x\in\R
+        \end{equation*}
+        n.b.
+        \begin{equation*}
+            \begin{gathered}
+                F_\X(x)=\int_{-\infty}^{x}f_{\X}(\alpha)d\alpha=\Phi(\frac{x-\mu}{\sigma})\\
+                \text{where } \Phi(r)=\int_{-\infty}^{r} \frac{1}{\sqrt{2\pi}}e^{\frac{-z^2}{2}}dz
+            \end{gathered}
+        \end{equation*}
+        So if $\X$ is a Gaussian RV with parameters $\mu\in\R$ and $\sigma>0$, then
+        \begin{equation*}
+            \P(\{a<\X\leq b\}) = \Phi(\frac{b-\mu}{\sigma}) - \Phi(\frac{a-\mu}{\sigma})
+        \end{equation*}
+
+        \textbf{uniform}
+        \begin{equation*}
+            \begin{gathered}
+                \X=\text{u}[a,b], a<b\\
+                f_\X(x)=\frac{1}{b-a}\cdot 1_{[a,b]}(x)\\
+                F_{\X}(x)=\int_{\infty}^{x} f_{\X}(\alpha)d\alpha
+            \end{gathered}
+        \end{equation*}
+
+        \textbf{exponential}\\
+        An RV $\X$ with pdf of the form
+        \begin{equation*}
+            f_{\X}(x)=\alpha e^{-\alpha x}\cdot 1_{[0,\infty]}(x)
+        \end{equation*}
+        where $\alpha>0$ is called an exponential RV with parameter $\alpha$.
+
+        \textbf{binomial}\\
+        Discrete RV taking on values in the set $\{0,1,2,\cdots,n\}\subset\R$ with pmf
+        \begin{equation*}
+            \begin{gathered}
+                \P_{\X}(k)={n\choose k}p^k(1-p)^{n-k},\\
+                F_{\X}(x)= \sum_{k=0}^{m(x)} {n\choose k}p^k(1-p)^{n-k}\\
+                \text{where } m(x)\leq x< m(x)+1,\\
+                f_{\X}(x) = \sum_{k=0}^{n} {n\choose k}p^k(1-p)^{n-k}\delta(x-k)
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Conditional cdf and pdf}
+        \begin{equation*}
+            \begin{gathered}
+                F_{\X}(x|M)=\P(\{\X\leq x\}|M) = \frac{\P(\{\X\leq x\}\cap M)}{\P(M)}\\
+                f_{\X}(x|M) = \frac{dF_\X(x|M)}{dx}
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Total Probability Law}
+        \begin{equation*}
+            \begin{gathered}
+                F_{\X}(x)=F_{\X}(x|A_1)P(A_1)+\cdots+F_{\X}(x|A_n)P(A_n)\\
+                f_{\X}(x)=f_{\X}(x|A_1)P(A_1)+\cdots+f_{\X}(x|A_n)P(A_n)
+            \end{gathered}
+        \end{equation*}
+
+        \textbf{Bayes Formula}
+        \begin{equation*}
+            \begin{gathered}
+                \P(A|\{\X\leq x\}) = \frac{F_\X(x|A)\P(A)}{F_\X(x)}
+            \end{gathered}
+        \end{equation*}
+
+        \newpage
+        Now consider $\P(A|B) = \frac{\P(B|A)\P(A)}{\P(B)}$ when $B=\{x_1<\X\leq x_2\}$:
+        \begin{equation*}
+            \begin{gathered}
+                \P(A|\{x_1<\X\leq x_2\}) = \\
+                \hookrightarrow = \frac{F_\X (x_2|A) - F_\X (x_1|A)\P(A)}{F_\X(x_2) - F_\X(x_1)}
+            \end{gathered}
+        \end{equation*}
+
+        For $\X=x$,
+        \begin{equation*}
+            \begin{gathered}
+                \P(A|\{\X=x\}) = \frac{f_\X(x|A)}{f_\X(x)}\P(A)\\
+                \P(A)= \int_{-\infty}^{\infty} \P(A|\{\X=x\})f_{\X}dx
+            \end{gathered}
+        \end{equation*}
+
+        \textbf{Bayes' Theorem}
+        \begin{equation*}
+            f_{\X}(x|A) = \frac{\P(A|\{\X=x\})f_\X(x)}{\int_{-\infty}^{\infty}\P(A|\{\X=\alpha\})f_\X(\alpha)d\alpha }
+        \end{equation*}
 
     \end{multicols*}
 
