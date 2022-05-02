@@ -1,10 +1,12 @@
 \documentclass{article}
 \usepackage{multicol}
 \usepackage[top=1mm,bottom=1mm,left=1mm,right=1mm]{geometry}
-\usepackage{lipsum}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
 \renewcommand{\S}{\mathcal{S}}
 \renewcommand{\P}{\mathcal{P}}
@@ -315,6 +317,104 @@
         \begin{equation*}
             f_{\X}(x|A) = \frac{\P(A|\{\X=x\})f_\X(x)}{\int_{-\infty}^{\infty}\P(A|\{\X=\alpha\})f_\X(\alpha)d\alpha }
         \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Functions of RVs}\\
+        For $\Y=g(\X)$ to be measurable, $g(\cdot)$ must satisfy:
+        \begin{enumerate}
+            \item The domain of $g(\cdot)$ must contain the range space of $\X$.
+            \item For each $y\in\R$, the set $R_y = \{x\in\R:g(x)\leq y\}$ must be a Borel set.
+            \item The events $\{g(\X)=\pm\infty\}$ must have probability 0.
+        \end{enumerate}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Direct pdf Method}\\
+        Suppose $\Y=g(\X)$, where $G:\R\rightarrow\R$ such that the inverse $g^{-1}(\cdot)$ exists, and assume that
+        \begin{equation*}
+            \frac{dx}{dy} = \frac{dg^{-1}(y)}{dy}
+        \end{equation*}
+        exists.
+        Then
+        \begin{equation*}
+            f_\Y(y) = f_\X(x(y)) \cdot \abs*{\frac{dx(y)}{dy}}
+        \end{equation*}
+        where $x(y)=g^{-1}(y)$.
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Integration by parts}
+        \begin{equation*}
+            \int u v' du = uv - \int v u' du
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        The \textbf{mean} or \textbf{expected value} of a RV $\X$ with pdf $f_\X(x)$ is
+        \begin{equation*}
+            E[\X] = \int_{-\infty}^{\infty}  xf_{\X}(x)dx
+        \end{equation*}
+        The definition above applies to discrete RVs if we write their pdf using $\delta$-functions:
+        \begin{equation*}
+            \begin{gathered}
+                f_{\X}(x) = \sum_k p_\X(x_k)\delta(x-x_k) = \sum_{k}p_k\delta(x-x_k)\\
+                E[\X] = \sum_k x_k p_{\X}(x_k)
+            \end{gathered}
+        \end{equation*}
+        If $\Y=g(\X)$ is a RV, then
+        \begin{equation*}
+            E[\Y] = E[g(\X)] = \int_{\infty}^{\infty} g(x) f_{\X}(x)dx.
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Conditional mean of an RV}
+        \begin{equation*}
+            \begin{gathered}
+                E[\X|M] = \int_{-\infty}^{\infty} xf_{\X}(x|M)dx \text{ (continuous)}\\
+                E[\X|M] = \sum_k x_k p_{\X}(x_k|M) \text{ (discrete)}
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Expected value of function $g(\X)$}
+        \begin{equation*}
+            E[g(\X)] = \int_{-\infty}^{\infty} g(x)f_{\X}(x)dx = \sum_k g(x_k)p_{\X}(x_k)
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Linearity of Expectation}\\
+        Let $g_1(\X)$ and $g_2(\X)$ be two function of a RV $\X$ and let $\alpha$ and $\beta$ be two constant $(\alpha, \beta\in\R)$.
+        Then
+        \begin{equation*}
+            E[\alpha g_1(\X) + \beta g_2(\X)] = \alpha E[g_1(\X)] + \beta E[g_2(\X)]
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Variance of RV $\X$}
+        \begin{equation*}
+            \text{var}(\X) = E[(\X - \overline{\X})^2] = \int_{-\infty}^{\infty}(x-\overline{\X})^2 f_\X(x)dx
+        \end{equation*}
+        where $\overline{\X} = E[\X]$.\\
+        The positive square root of the variance of $\X$ is called the \textbf{standard deviation} of $\X$:
+        \begin{equation*}
+            \text{StDev}(\X) = \sigma_x = \sqrt[]{\text{var}(\X)}
+        \end{equation*}
+        n.b.:
+        \begin{equation*}
+            \text{var}(\X) = E[(\X - \overline{\X})^2] = E[\X^2] - (E[\X])^2
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Means and variances of RV types}\\
+        \textbf{gaussian}\\
+        $E[\X] = \mu$\\
+        $\text{var}(\X) = \sigma^2$
 
     \end{multicols*}
 
