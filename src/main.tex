@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage{etexcmds}
 
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}
 
@@ -16,8 +17,11 @@
 \providecommand{\F}{\mathcal{F}}
 \providecommand{\X}{\mathbb{X}}
 \providecommand{\Y}{\mathbb{Y}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\W}{\mathbb{W}}
 \providecommand{\N}{\mathbb{N}}
 \providecommand{\R}{\mathbb{R}}
+\providecommand{\C}{\mathbb{C}}
 
 \begin{document}
     \raggedright
@@ -257,6 +261,9 @@
             f_{\X}(x)=\alpha e^{-\alpha x}\cdot 1_{[0,\infty]}(x)
         \end{equation*}
         where $\alpha>0$ is called an exponential RV with parameter $\alpha$.
+        \begin{equation*}
+            F_{\X}(\alpha) = \int_{-\infty}^{\alpha} f_{\X}(x)dx
+        \end{equation*}
 
         \textbf{binomial}\\
         Discrete RV taking on values in the set $\{0,1,2,\cdots,n\}\subset\R$ with pmf
@@ -359,7 +366,7 @@
         \begin{equation*}
             \begin{gathered}
                 f_{\X}(x) = \sum_k p_\X(x_k)\delta(x-x_k) = \sum_{k}p_k\delta(x-x_k)\\
-                E[\X] = \sum_k x_k p_{\X}(x_k)
+                E[\X] = \sum_k x_k p_{\X}(x_k) = \sum_k k\cdot p_{\X}(k)
             \end{gathered}
         \end{equation*}
         If $\Y=g(\X)$ is a RV, then
@@ -414,7 +421,180 @@
         \textbf{Means and variances of RV types}\\
         \textbf{gaussian}\\
         $E[\X] = \mu$\\
-        $\text{var}(\X) = \sigma^2$
+        $\text{var}(\X) = \sigma^2$\\
+        \textbf{poisson}\\
+        $E[\X] = \mu$\\
+        $\text{var}(\X) = \mu$
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{The Characteristic Function}
+        \begin{equation*}
+            \Phi_{\X}(\omega) = E[e^{i\omega\X}], \omega\in\R
+        \end{equation*}
+        If $f_\X(x)$ is the pdf of $\X$, then
+        \begin{equation*}
+            \begin{gathered}
+                \Phi_{\X}(\omega) = \int_{-\infty}^{\infty} e^{i\omega x}f_\X(x)dx\\
+                \Phi_{\X}(\omega): \R\rightarrow\C
+            \end{gathered}
+        \end{equation*}
+        Euler's formula:
+        \begin{equation*}
+            \begin{gathered}
+                e^{i\omega x} = \cos(\omega x) + i\sin(\omega x)\\
+                e^{i\pi} + 1 = 0
+            \end{gathered}
+        \end{equation*}
+        If $\X$ is a RV with $\Phi_\X(\omega)$, and $\Y=a\X + b$ then
+        \begin{equation*}
+            \Phi_{\Y}(\omega) = e^{i\omega b}\Phi_{\X}(a\omega)
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Moment generating function}
+        \begin{equation*}
+            \phi_{\X}(s) = E[e^{s\X}] = \int_{-\infty}^{\infty}f_\X(x)e^{sx}dx
+        \end{equation*}
+        \textbf{Moment Theorem}\\
+        Given a RV $\X$ with mgf $\phi_\X(s)$, the $n$-th moment of $\X$ is given by
+        \begin{equation*}
+            E[\X^n] = \frac{d^n\phi_\X(s)}{ds^n}\rvert_{s=0} = \phi_{\X}^{(n)}(0)
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        The \textbf{joint cdf} of two RVs is the probability of the event $\{\X\leq x\}\cap\{\Y\leq y\}$:
+        \begin{equation*}
+            F_{\X\Y}(x,y) = \P(\{\X\leq x\}\cap\{\Y\leq y\})
+        \end{equation*}
+        Properties:
+        \begin{enumerate}
+            \item $F_{\X\Y}(-\infty,y)=0$ and $F_{\X\Y}(x, -\infty)=0$,\\
+            $F_{\X\Y}(\infty,y)=F_{\Y}(y)$ and $F_{\X\Y}(x, \infty)=F_{\X}(x)$,\\
+            $F_{\X\Y}(\infty,\infty)=1$
+            \item $\P(\{x_1<\X\leq x_2\}\cap\{\Y\leq y\}) = F_{\X\Y}(x_2,y) - F_{\X\Y}(x_1,y)$
+            \item $\P(\{x_1<\X\leq x_2\}\cap\{y_1<\Y\leq y_2\}) = F_{\X\Y}(x_2,y_2) - F_{\X\Y}(x_2,y_1) $
+        \end{enumerate}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Joint pdf}
+        \begin{equation*}
+            f_{\X\Y}(x,y) = \frac{\partial^{2}F_{\X\Y}(x,y)}{\partial x\partial y}
+        \end{equation*}
+        Properties:
+        \begin{enumerate}
+            \item $f_{\X\Y}(x,y)\geq 0$
+            \item $\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{\X\Y}(x,y)dxdy = 1$
+            \item $\int_{-\infty}^{y} \int_{-\infty}^{x} f_{\alpha\beta}(x,y)d\alpha d\beta = F_{\X\Y}(x,y)$
+            \item $\P(\{(\X,\Y)\in D\}) = \int_{}^{} \int_{\R^2} f_{\X\Y}(x,y)\cdot 1_D((x,y))dxdy$
+        \end{enumerate}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Marginal pdfs}
+        \begin{equation*}
+            \begin{gathered}
+                f_{\X}(x)=\int_{-\infty}^{\infty} f_{\X\Y}(x,y)dy\\
+                f_{\Y}(y)=\int_{-\infty}^{\infty} f_{\X\Y}(x,y)dx
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Jointly Gaussian RVs}
+        \begin{equation*}
+            \begin{gathered}
+                f_{\X\Y}(x,y) = \frac{1}{2\pi \sigma_x \sigma_y \sqrt{1-r^2}}\cdot\\
+                \exp{[\cdots\frac{(x-\mu_x)(y-\mu_y)}{\sigma_x \sigma_y}\cdots]}
+            \end{gathered}
+        \end{equation*}
+        where $\mu_x,\mu_y\in\R$, $\sigma_x \sigma_y>0$, and $-1\leq r\leq1$.\\
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Statistically Independent RVs}\\
+        Two RVs are statistically independent if the events $\{\X\in A\}$ and $\{\Y\in B\}$ are statistically independent for all $A,B\in \B(\R)$.
+        \begin{equation*}
+            \begin{gathered}
+                F_{\X\Y}(x,y) = \P(\{\X\in A\}\cap\{\Y\in B\}) = F_{\X}(x)\cdot F_{\Y}(y)\\
+                f_{\X\Y}(x,y) = f_{\X}(x)\cdot f_{\Y}(y)
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        If $\X$ and $\Y$ are two j-dist, independent RVs then the pdf of their sum $\Z=\X+\Y$ is given by the convolution:
+        \begin{equation*}
+            \begin{gathered}
+                f_{\Z}(z) = (f_\X * f_\Y)(z)\\
+                f_{\Z}(z) = \int_{-\infty}^{\infty} f_{\Y}(y)f_{\X}(z-y)dy
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Direct joint density determination}
+        \begin{equation*}
+            f_{\Z\W}(z,w)= f_{\X\Y}(x(z,w),y(z,w))\cdot\abs*{\frac{\partial (x,y)}{\partial (z,w)}}
+        \end{equation*}
+        where the Jacobian is the determinant
+        \begin{equation*}
+            \frac{\partial (x,y)}{\partial (z,w)} = \frac{\partial x}{\partial z}\cdot \frac{\partial y}{\partial w} - \frac{\partial y}{\partial z}\cdot \frac{\partial x}{\partial w}.
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Joint Moments}
+        \begin{equation*}
+            \begin{gathered}
+                E[\Z] = E[g(\X,\Y)]\\
+                = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}  g(x,y)f_{\X\Y}(x,y)dxdy
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Correlation}
+        \begin{equation*}
+            \text{corr}(\X,\Y)=E[\X\Y]
+        \end{equation*}
+        \textbf{Covariance}
+        \begin{equation*}
+            \text{cov}(\X,\Y)=E[(\X-\overline{\X})(\Y-\overline{\Y})]
+        \end{equation*}
+        \textbf{Correlation coefficient}
+        \begin{equation*}
+            r_{\X\Y} = \frac{\text{cov}(\X,\Y)}{\sigma_x \sigma_y} = \frac{E[\X\Y]-E[\X]\cdot E[\Y]}{\sigma_x\sigma_y}
+        \end{equation*}
+        Two RVs are \textbf{uncorrelated} if their covariance is equal to zero.
+        This is true if any of the following are true:
+        \begin{enumerate}
+            \item $\text{cov}(\X,\Y) = 0$
+            \item $r_{\X\Y}=0$
+            \item $E[\X\Y] = E[\X] \cdot E[\Y]$
+        \end{enumerate}
+        Two RVs are \textbf{orthogonal} if $E[\X\Y] = 0$.
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Joint characteristic functions}
+        \begin{equation*}
+            \begin{gathered}
+                \Phi_{\X\Y}(\omega_1,\omega_2) = E[e^{i(\omega_1\X+\omega_2\Y)}]\\
+                = \int \int e^{+i(\omega_1 x+\omega_2 y)}f_{\X\Y}(x,y)dxdy
+            \end{gathered}
+        \end{equation*}
+
+        \noindent\rule{\columnwidth}{0.4pt}
+
+        \textbf{Convolution Theorem}\\
+        Let $\X$ and $\Y$ be two j-dist, statistically independent RVs and let $\Z=\X+\Y$, then
+        \begin{equation*}
+            \Phi_{\Z}(\omega) = \Phi_{\X}(\omega)\cdot\Phi_{\Y}(\omega) = E[e^{i\omega\X}]\cdot E[e^{i\omega\Y}]
+        \end{equation*}
 
     \end{multicols*}
 
